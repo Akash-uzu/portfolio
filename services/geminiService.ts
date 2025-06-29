@@ -1,12 +1,10 @@
 
 import { GoogleGenAI } from "@google/genai";
 
-// Assume process.env.API_KEY is configured in the environment
 const API_KEY = process.env.API_KEY;
 
 if (!API_KEY) {
-  // In a real app, you might have better error handling or a fallback.
-  // For this example, we'll proceed, but the service will fail if the key is missing.
+
   console.warn("Gemini API key not found. AI features will not work.");
 }
 
@@ -27,7 +25,7 @@ export const analyzeResume = async (query: string, resumeContext: string): Promi
       contents: query,
       config: {
         systemInstruction: systemInstruction,
-        thinkingConfig: { thinkingBudget: 0 } // For faster response
+        thinkingConfig: { thinkingBudget: 0 } 
       }
     });
     return response.text;
