@@ -96,26 +96,26 @@ const Preloader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
 
     const bootSequence = [
       { text: "Booting KERNEL v4.K4.5H...", delay: 50 },
-      { text: "Initializing system resources...", delay: 100 },
-      { text: "Loading user profile: AKASH E", delay: 100 },
+      { text: "Initializing system resources...", delay: 10 },
+      { text: "Loading user profile: AKASH E", delay: 10 },
       // This line will now render correctly
       {
         text: "[<span class='text-green-400'> OK </span>] Established connection to neural grid.",
         delay: 200,
       },
-      { text: "Scanning memory for skills...", delay: 150 },
-      { type: "progress", duration: 1500, label: "React Native" },
-      { type: "progress", duration: 1200, label: "UI/UX Design" },
-      { type: "progress", duration: 800, label: "Backend APIs" },
+      { text: "Scanning memory for skills...", delay: 15 },
+      { type: "progress", duration: 100, label: "React Native" },
+      { type: "progress", duration: 100, label: "UI/UX Design" },
+      { type: "progress", duration: 100, label: "Backend APIs" },
       {
         text: "[<span class='text-green-400'> OK </span>] Skill modules loaded.",
         delay: 200,
       },
-      { text: "Analyzing project archives...", delay: 100 },
-      { text: "Decompressing creative assets...", delay: 300 },
-      { text: "Rendering final output...", delay: 500 },
+      { text: "Analyzing project archives...", delay: 10 },
+      { text: "Decompressing creative assets...", delay: 10 },
+      { text: "Rendering final output...", delay: 10 },
       { type: "art" },
-      { text: "System ready. Welcome.", delay: 300 },
+      { text: "System ready. Welcome.", delay: 30 },
     ];
 
     const asciiArt = `
@@ -135,7 +135,7 @@ o88o     o8888o o888o  o888o o88o     o8888o 8""88888P'  o888o   o888o
         currentLine += line.charAt(i);
         element.innerHTML = currentLine;
         textElement.scrollTop = textElement.scrollHeight;
-        await sleep(15 + Math.random() * 15);
+        await sleep(5 + Math.random() * 1);
       }
     };
 
@@ -185,7 +185,7 @@ o88o     o8888o o888o  o888o o88o     o8888o 8""88888P'  o888o   o888o
         }
       }
 
-      await sleep(500);
+      // await sleep(500);
       onComplete();
     };
 
