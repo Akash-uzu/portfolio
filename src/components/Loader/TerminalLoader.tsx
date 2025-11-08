@@ -71,11 +71,11 @@ const themeStyles = {
 const TerminalLoader = ({
   onFinish,
   messages = [
-    "⚡ Initializing quantum core...",
-    "🔐 Establishing secure connection...",
-    "📡 Loading neural network modules...",
-    "🚀 Preparing interface systems...",
-    "✨ Boot sequence complete.",
+    " Initializing quantum core...",
+    " Establishing secure connection...",
+    " Loading neural network modules...",
+    " Preparing interface systems...",
+    " Boot sequence complete.",
   ],
   theme = "cyber",
   speed = 50,
@@ -88,167 +88,115 @@ const TerminalLoader = ({
   const [currentChar, setCurrentChar] = useState(0);
   const [progress, setProgress] = useState(0);
   const [glitch, setGlitch] = useState(false);
+  const [fadeOut, setFadeOut] = useState(false);
 
   const t = themeStyles[theme];
 
   useEffect(() => {
     if (currentLine >= messages.length) {
-      setTimeout(onFinish, 500);
+      setTimeout(() => {
+        setFadeOut(true);
+        setTimeout(onFinish, 700);
+      }, 300);
       return;
     }
 
-    const message = messages[currentLine];
+    const msg = messages[currentLine];
 
-    if (currentChar < message.length) {
+    if (currentChar < msg.length) {
       const timer = setTimeout(() => {
         setCurrentChar(currentChar + 1);
         setLines((prev) => {
           const newLines = [...prev];
-          newLines[currentLine] = message.substring(0, currentChar + 1);
+          newLines[currentLine] = msg.substring(0, currentChar + 1);
           return newLines;
         });
-      }, speed);
+      }, speed * 0.35); 
       return () => clearTimeout(timer);
     } else {
       const timer = setTimeout(() => {
         setCurrentLine(currentLine + 1);
         setCurrentChar(0);
         setProgress(((currentLine + 1) / messages.length) * 100);
-      }, 300);
+      }, 90);
       return () => clearTimeout(timer);
     }
   }, [currentChar, currentLine, messages, onFinish, speed]);
 
   useEffect(() => {
-    if (enableGlitch) {
-      const glitchInterval = setInterval(() => {
-        setGlitch(true);
-        setTimeout(() => setGlitch(false), 100);
-      }, 3000);
-      return () => clearInterval(glitchInterval);
-    }
+    if (!enableGlitch) return;
+    const interval = setInterval(() => {
+      setGlitch(true);
+      setTimeout(() => setGlitch(false), 100);
+    }, 2500);
+    return () => clearInterval(interval);
   }, [enableGlitch]);
 
   return (
     <div
-      className={`fixed inset-0 bg-gradient-to-br ${t.bg} flex items-center justify-center z-[200] animate-in fade-in duration-500`}
+      className={`fixed inset-0 bg-gradient-to-br ${
+        t.bg
+      } flex items-center justify-center z-[200]
+      transition-all duration-700 ease-out
+      ${fadeOut ? "opacity-0 scale-95" : "opacity-100 scale-100"}`}
     >
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:50px_50px] pointer-events-none" />
 
-      <div className="absolute inset-0 overflow-hidden">
-        {[...Array(20)].map((_, i) => (
-          <div
-            key={i}
-            className={`absolute w-1 h-1 ${t.cursor} rounded-full opacity-20 animate-pulse`}
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${2 + Math.random() * 3}s`,
-            }}
-          />
-        ))}
-      </div>
-
-      <div className="relative w-full max-w-4xl px-4">
+      <div className="relative w-full max-w-4xl px-6">
         <div
           className={`relative bg-black/40 backdrop-blur-xl border-2 ${
             t.border
-          } rounded-2xl ${
-            t.glow
-          } overflow-hidden transform transition-all duration-300 ${
-            glitch ? "translate-x-1 translate-y-1" : ""
-          }`}
+          } ${t.glow}
+          rounded-2xl overflow-hidden transition-transform duration-300
+          ${glitch ? "translate-x-1 translate-y-1" : ""}`}
         >
           {enableScanlines && (
-            <div className="absolute inset-0 bg-[linear-gradient(transparent_50%,rgba(0,0,0,0.3)_50%)] bg-[length:100%_4px] pointer-events-none animate-pulse" />
+            <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(transparent_50%,rgba(0,0,0,0.2)_50%)] bg-[length:100%_4px]" />
           )}
 
           <div
-            className={`relative bg-gradient-to-r ${t.header} backdrop-blur-sm border-b ${t.border} px-6 py-3 flex items-center justify-between`}
+            className={`bg-gradient-to-r ${t.header} border-b ${t.border} px-5 py-3 flex justify-between`}
           >
-            <div className="flex items-center gap-3">
-              <div className="flex gap-2">
-                <div className="w-3 h-3 rounded-full bg-red-500/80 animate-pulse" />
-                <div
-                  className="w-3 h-3 rounded-full bg-yellow-500/80 animate-pulse"
-                  style={{ animationDelay: "0.2s" }}
-                />
-                <div
-                  className="w-3 h-3 rounded-full bg-green-500/80 animate-pulse"
-                  style={{ animationDelay: "0.4s" }}
-                />
-              </div>
-              <div
-                className={`text-sm font-mono ${t.accent} flex items-center gap-2`}
-              >
-                <span className="animate-pulse">●</span>
-                BOOT-CONSOLE :: AKASH-NODE
-              </div>
-            </div>
-            <div className={`text-xs ${t.text} font-mono opacity-60`}>
-              v4.2.1-quantum
-            </div>
+            <span className={`font-mono text-sm ${t.accent}`}>
+              BOOT-CONSOLE :: AKASH-NODE
+            </span>
+            <span className={`text-xs ${t.text} opacity-60 font-mono`}>
+              v4.2.1
+            </span>
           </div>
 
-          <div className="p-6 min-h-[300px] flex flex-col gap-3">
-            <div className={`${t.text} font-mono text-sm space-y-2`}>
-              {lines.map((line, i) => (
-                <div
-                  key={i}
-                  className="flex items-start gap-2 animate-in slide-in-from-left duration-200"
-                  style={{ animationDelay: `${i * 50}ms` }}
-                >
-                  <span className={`${t.accent} opacity-50 select-none`}>
-                    [{String(i + 1).padStart(2, "0")}]
-                  </span>
-                  <span className="flex-1">{line}</span>
-                  {i === currentLine && (
-                    <span
-                      className={`inline-block w-2 h-4 ${t.cursor} animate-pulse ml-1`}
-                    />
-                  )}
-                </div>
-              ))}
-            </div>
+          <div className="p-5 space-y-2 font-mono text-sm">
+            {lines.map((line, i) => (
+              <div key={i} className={`${t.text}`}>
+                <span className={`${t.accent} opacity-50`}>
+                  [{String(i + 1).padStart(2, "0")}]
+                </span>{" "}
+                {line}
+                {i === currentLine && (
+                  <span
+                    className={`inline-block w-2 h-4 ${t.cursor} animate-pulse ml-1`}
+                  />
+                )}
+              </div>
+            ))}
 
             {showProgress && (
-              <div className="mt-auto pt-4">
+              <div className="pt-4">
                 <div
-                  className={`h-2 ${t.progressBg} rounded-full overflow-hidden backdrop-blur-sm border ${t.border}`}
+                  className={`h-2 ${t.progressBg} rounded-full border ${t.border} overflow-hidden`}
                 >
                   <div
-                    className={`h-full ${t.progressBar} transition-all duration-300 ease-out relative overflow-hidden`}
+                    className={`h-full ${t.progressBar} transition-all`}
                     style={{ width: `${progress}%` }}
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-[shimmer_2s_infinite]" />
-                  </div>
-                </div>
-                <div
-                  className={`text-xs ${t.text} opacity-60 mt-2 text-right font-mono`}
-                >
-                  {Math.round(progress)}% COMPLETE
+                  />
                 </div>
               </div>
             )}
           </div>
-
-          <div
-            className={`absolute top-0 left-0 w-20 h-20 border-l-2 border-t-2 ${t.border} rounded-tl-2xl`}
-          />
-          <div
-            className={`absolute bottom-0 right-0 w-20 h-20 border-r-2 border-b-2 ${t.border} rounded-br-2xl`}
-          />
         </div>
       </div>
-
-      <style>{`
-        @keyframes shimmer {
-          0% { transform: translateX(-100%); }
-          100% { transform: translateX(100%); }
-        }
-      `}</style>
     </div>
   );
 };
+
 export default TerminalLoader;

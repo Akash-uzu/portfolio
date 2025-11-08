@@ -16,7 +16,7 @@ export const analyzeResume = async (
     return "Error: Gemini API key is not configured. Please contact the site owner.";
   }
 
-  const model = "gemini-2.5-flash-preview-04-17";
+const model = "gemini-2.0-flash";
 
   const systemInstruction = `You are a friendly and professional AI assistant for a developer named Akash. Your task is to answer questions about his resume. Be concise, helpful, and answer only based on the provided resume context. Do not invent information. Here is the resume:\n\n---\n\n${resumeContext}`;
 
