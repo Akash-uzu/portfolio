@@ -1,6 +1,6 @@
 import React from 'react';
-import { EXPERIENCE_DATA } from '../constants';
-import { ExperienceItem } from '../types';
+import { EXPERIENCE_DATA } from '@/constants';  
+import { ExperienceItem } from '@/types';  
 import SectionWrapper from './SectionWrapper';
 import { CheckIcon } from './icons/UiIcons';
 

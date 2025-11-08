@@ -1,6 +1,6 @@
 import React from 'react';
-import { PROJECTS_DATA } from '../constants';
-import { Project } from '../types';
+import { PROJECTS_DATA } from '@/constants';
+import { Project } from '@/types';  
 import SectionWrapper from './SectionWrapper';
 import { AppStoreIcon, PlayStoreIcon, WebsiteIcon } from './icons/LinkIcons';
 
