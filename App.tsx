@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { TerminalLoader, MatrixRain } from "./src/components/Loader";
+import { TerminalLoader } from "./src/components/Loader";
 import Header from "./src/components/Header";
 import Hero from "./src/components/Hero";
 import About from "./src/components/About";
